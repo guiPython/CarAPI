@@ -1,34 +1,30 @@
-import { Specification } from "../../models/Specification";
+import { getRepository, Repository } from "typeorm";
+import { Specification } from "../../entities/Specification";
 import {
     ISpecificationRepository,
     ICreateSpecificationDTO,
 } from "../ISpecificationRepository";
 
 class SpecificationRepository implements ISpecificationRepository {
-    private specifications: Specification[];
+    private repository: Repository<Specification>;
 
     constructor() {
-        this.specifications = [];
+        this.repository = getRepository(Specification);
     }
 
-    create({ name, description }: ICreateSpecificationDTO): void {
-        const specification = new Specification();
-        Object.assign(specification, {
-            name,
-            description,
-            created_at: new Date(),
-        });
-
-        this.specifications.push(specification);
+    async create({ name, description }: ICreateSpecificationDTO): Promise<void> {
+        const specification = this.repository.create({name, description})
+    
+        await this.repository.save(specification);
     }
 
-    list(): Specification[] {
-        return this.specifications;
+    async list(): Promise<Specification[]> {
+        return await this.repository.find();
     }
 
-    findByName(name: string): Specification {
-        return this.specifications.find(
-            (s) => s.name.toLocaleLowerCase() === name
+    async findByName(name: string): Promise<Specification> {
+        return this.repository.findOne(
+            {name: name}
         );
     }
 }
