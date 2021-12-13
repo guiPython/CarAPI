@@ -5,6 +5,7 @@
     "password": "ignite",
     "database": "rentx",
     "port": 5432,
+    "migrations": ["./src/database/migrations/*.ts"],
     "cli":{
         "migrationsDir": "./src/database/migrations"
     }
