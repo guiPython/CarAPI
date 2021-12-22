@@ -1,11 +1,13 @@
 import { inject, injectable } from "tsyringe";
 
 import { deleteFile } from "../../../../utils/file";
-import { UserRepository } from "../../repositories/implementations/UserRepository";
+import { IUserRepository } from "../../repositories/IUserRepository";
 
 @injectable()
 class UpdateUserAvatarUseCase {
-    constructor(@inject("UserRepository") private repository: UserRepository) {}
+    constructor(
+        @inject("UserRepository") private repository: IUserRepository
+    ) {}
 
     async execute(user_id: string, avatar_file): Promise<void> {
         const user = await this.repository.findById(user_id);

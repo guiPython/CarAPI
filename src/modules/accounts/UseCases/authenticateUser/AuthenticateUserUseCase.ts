@@ -1,9 +1,8 @@
+import { AppError } from "@errors/AppError";
+import { IUserRepository } from "@modules/accounts/repositories/IUserRepository";
 import { compare } from "bcryptjs";
 import { sign } from "jsonwebtoken";
 import { inject, injectable } from "tsyringe";
-
-import { AppError } from "../../../../errors/AppError";
-import { UserRepository } from "../../repositories/implementations/UserRepository";
 
 interface IRequest {
     email: string;
@@ -20,7 +19,9 @@ interface IResponse {
 
 @injectable()
 class AuthenticateUserUseCase {
-    constructor(@inject("UserRepository") private repository: UserRepository) {}
+    constructor(
+        @inject("UserRepository") private repository: IUserRepository
+    ) {}
 
     async execute({ email, password }: IRequest): Promise<IResponse> {
         const user = await this.repository.findByEmail(email);

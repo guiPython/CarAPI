@@ -2,7 +2,7 @@ import { hash } from "bcryptjs";
 import { injectable, inject } from "tsyringe";
 
 import { AppError } from "../../../../errors/AppError";
-import { UserRepository } from "../../repositories/implementations/UserRepository";
+import { IUserRepository } from "../../repositories/IUserRepository";
 
 interface IRequest {
     name: string;
@@ -13,7 +13,9 @@ interface IRequest {
 
 @injectable()
 class CreateUserUseCase {
-    constructor(@inject("UserRepository") private repository: UserRepository) {}
+    constructor(
+        @inject("UserRepository") private repository: IUserRepository
+    ) {}
 
     async execute({
         name,
