@@ -8,7 +8,7 @@ import { AuthenticateUserUseCase } from "./AuthenticateUserUseCase";
 let authenticateUserUseCase: AuthenticateUserUseCase;
 let userRepositoryInMemory: IUserRepository;
 
-describe("", () => {
+describe("Authenticate User", () => {
     beforeEach(() => {
         userRepositoryInMemory = new UserRepositoryInMemory();
         authenticateUserUseCase = new AuthenticateUserUseCase(
